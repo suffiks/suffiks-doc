@@ -22,7 +22,31 @@ kubectl edit app MYAPPLICATION
 \`\`\`
 `;
 
-export default {
+export interface Document {
+	slug: string;
+	title: string;
+	content: string;
+}
+
+export interface Group {
+	name: string;
+	slug: string;
+	documents: Array<Document>;
+}
+
+export interface Page {
+	slug: string;
+	title: string;
+	index: string;
+	groups: Array<Group>;
+}
+
+export interface Content {
+	index: string;
+	pages: Array<Page>;
+}
+
+const content: Content = {
 	index: "suffiks",
 	pages: [
 		{
@@ -50,3 +74,5 @@ export default {
 		},
 	],
 };
+
+export default content;

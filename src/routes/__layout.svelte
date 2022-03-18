@@ -6,8 +6,8 @@
 </script>
 
 <Topbar />
-<div class="md:container flex items-stretch w-full">
-	<div class="min-w-fit mr-8">
+<div class="md:container flex items-stretch w-full pb-6">
+	<div class="min-w-[180px] mr-8">
 		<Sidebar />
 	</div>
 	<div class="w-full overflow-x-clip">

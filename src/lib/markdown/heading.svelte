@@ -1,19 +1,14 @@
 <script lang="ts">
-	import type { Slugger } from "marked";
-
-	import { getContext, getAllContexts } from "svelte";
-	import { key } from "svelte-markdown/src/context";
+	import { getAllContexts } from "svelte";
 
 	export let depth: number;
 	export let raw: string;
 	export let text: string;
-	// export let slugger: Slugger;
 
-	$: console.log(getAllContexts());
-	$: console.log(key);
-	$: console.log(getContext("::key;;"));
+	// Hack to get the slug function from the context, since the key used by svelte-markdown doesn't work.
+	const slug = Array.from(getAllContexts()).find((c) => !!c[1].slug)[1].slug;
 
-	$: id = text;
+	$: id = slug(text);
 </script>
 
 {#if depth === 1}

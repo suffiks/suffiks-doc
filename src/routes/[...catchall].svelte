@@ -5,7 +5,6 @@
 	export const load: Load = async ({ url }) => {
 		const parts = url.pathname.split("/").filter((p) => p != "");
 		if (parts.length > 3) {
-			console.log(parts);
 			return {
 				status: 404,
 				html: "Not found",
@@ -52,19 +51,16 @@
 </script>
 
 <script lang="ts">
+	import type { Document } from "$lib/content";
 	import SvelteMarkdown from "svelte-markdown";
 	import Paragraph from "$lib/markdown/paragraph.svelte";
 	import Heading from "$lib/markdown/heading.svelte";
 
-	export let doc;
+	export let doc: Document;
 
 	const renderers = {
 		paragraph: Paragraph,
 		heading: Heading,
-	};
-
-	const options = {
-		gfm: true,
 	};
 </script>
 
@@ -74,5 +70,5 @@
 
 <div class="md prose-zink max-w-none prose lg:prose-xl dark:prose-invert">
 	<h1>{doc.title}</h1>
-	<SvelteMarkdown source={doc.content} {renderers} {options} />
+	<SvelteMarkdown source={doc.content} {renderers} />
 </div>

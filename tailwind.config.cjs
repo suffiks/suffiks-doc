@@ -15,5 +15,5 @@ module.exports = {
 	theme: {
 		extend: {},
 	},
-	plugins: [linkactive],
+	plugins: [linkactive, require("@tailwindcss/typography")],
 };

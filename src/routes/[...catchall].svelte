@@ -53,21 +53,26 @@
 
 <script lang="ts">
 	import SvelteMarkdown from "svelte-markdown";
+	import Paragraph from "$lib/markdown/paragraph.svelte";
+	import Heading from "$lib/markdown/heading.svelte";
+
 	export let doc;
+
+	const renderers = {
+		paragraph: Paragraph,
+		heading: Heading,
+	};
+
+	const options = {
+		gfm: true,
+	};
 </script>
 
 <svelte:head>
 	<title>{doc.title}</title>
 </svelte:head>
 
-<h1>{doc.title}</h1>
-
-<div class="md">
-	<SvelteMarkdown source={doc.content} />
+<div class="md prose-zink max-w-none prose lg:prose-xl dark:prose-invert">
+	<h1>{doc.title}</h1>
+	<SvelteMarkdown source={doc.content} {renderers} {options} />
 </div>
-
-<style>
-	:global .md p {
-		color: red !important;
-	}
-</style>

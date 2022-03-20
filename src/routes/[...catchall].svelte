@@ -2,51 +2,44 @@
 	import type { Load } from "@sveltejs/kit";
 	import content from "$lib/content";
 
-	export const load: Load = async ({ url }) => {
-		const parts = url.pathname.split("/").filter((p) => p != "");
-		if (parts.length > 3) {
-			return {
-				status: 404,
-				html: "Not found",
-			};
-		}
+	function onePath(document: string) {
+		const page = content.pages.find((p) => p.slug == content.index);
 
-		const pageSlug = parts.length >= 1 ? parts[0] : false;
-		const groupSlug = parts.length >= 2 ? parts[1] : false;
-		const documentSlug = parts.length >= 3 ? parts[2] : false;
+		return twoPaths(page.index, document);
+	}
 
-		const page = content.pages.find(
-			(p) => (pageSlug && p.slug == pageSlug) || (!pageSlug && p.slug == content.index),
-		);
+	function twoPaths(groupSlug: string, documentSlug: string) {
+		return threePaths(content.index, groupSlug, documentSlug);
+	}
 
-		const group = page.groups.find(
-			(g) => (groupSlug && g.slug == groupSlug) || (!groupSlug && g.slug == page.groups[0].slug),
-		);
+	function threePaths(pageSlug: string, groupSlug: string, documentSlug: string) {
+		const page = content.pages.find((p) => p.slug == pageSlug);
+		const group = page.groups.find((g) => g.slug == groupSlug);
+		const doc = group.documents.find((d) => d.slug == documentSlug);
 
-		const doc = group.documents?.find(
-			(d) =>
-				(documentSlug && d.slug == documentSlug) ||
-				(!documentSlug && d.slug == group.documents[0].slug),
-		);
-
-		if (!doc) {
-			return {
-				status: 404,
-				html: "Not found",
-			};
-		}
-
-		if (parts.length != 3) {
-			return {
-				status: 302,
-				redirect: `/${page.slug}/${group.slug}/${doc.slug}`,
-			};
-		}
 		return {
 			props: {
 				doc,
 			},
 		};
+	}
+
+	export const load: Load = async ({ url }) => {
+		const parts = url.pathname.split("/").filter((p) => p != "");
+
+		switch (parts.length) {
+			case 1:
+				return onePath(parts[0]);
+			case 2:
+				return twoPaths(parts[0], parts[1]);
+			case 3:
+				return threePaths(parts[0], parts[1], parts[2]);
+			default:
+				return {
+					status: 404,
+					html: "Not found",
+				};
+		}
 	};
 </script>
 

@@ -44,17 +44,10 @@
 </script>
 
 <script lang="ts">
+	import Markdown from "$lib/markdown.svelte";
 	import type { Document } from "$lib/content";
-	import SvelteMarkdown from "svelte-markdown";
-	import Paragraph from "$lib/markdown/paragraph.svelte";
-	import Heading from "$lib/markdown/heading.svelte";
 
 	export let doc: Document;
-
-	const renderers = {
-		paragraph: Paragraph,
-		heading: Heading,
-	};
 </script>
 
 <svelte:head>
@@ -63,5 +56,7 @@
 
 <div class="md prose-zink max-w-none prose lg:prose-xl dark:prose-invert">
 	<h1>{doc.title}</h1>
-	<SvelteMarkdown source={doc.content} {renderers} />
+	<!-- <SvelteMarkdown source={doc.content} {renderers} /> -->
+
+	<Markdown source={doc.content} />
 </div>

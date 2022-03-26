@@ -9,7 +9,14 @@ To change which team owns an application you must use \`kubectl\` and change the
 The easiest way to do this is with this one-liner. The user running the command must be a member of both the old and new team.
 
 !!! warning
-    Windows users: this one-liner will not work. Try the alternate method below.
+Windows users: this one-liner will not work. **Try** the alternate method below.
+!!!
+!!! info
+Windows users: this one-liner will not work. **Try** the alternate method below.
+!!!
+!!! error "With custom title"
+Windows users: this one-liner will not work. **Try** the alternate method below.
+!!!
 
 \`\`\`text
 kubectl patch app MYAPPLICATION --type merge --patch '{"metadata":{"labels":{"team":"MYTEAM"}}}'

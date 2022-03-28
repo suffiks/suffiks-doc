@@ -51,12 +51,12 @@
 </script>
 
 <svelte:head>
-	<title>{doc.title}</title>
+	<title>{doc?.title}</title>
 </svelte:head>
 
 <div class="md prose-zink max-w-none prose lg:prose-xl dark:prose-invert">
-	<h1>{doc.title}</h1>
+	<h1>{doc?.title}</h1>
 	<!-- <SvelteMarkdown source={doc.content} {renderers} /> -->
 
-	<Markdown source={doc.content} />
+	<Markdown source={doc?.content} />
 </div>

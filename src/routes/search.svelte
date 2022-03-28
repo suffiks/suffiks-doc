@@ -20,16 +20,29 @@
 		return {
 			props: {
 				res: index.search(q),
+				q,
 			},
 		};
 	};
 </script>
 
 <script lang="ts">
+	export let q: string;
 	export let res = [];
 	$: console.log(res);
 </script>
 
+<h1 class="text-xl">
+	Search results for <span class="opacity-70">{q}</span>
+</h1>
+
 {#each res as result}
-	{result.title}
+	<ul>
+		<li class="pt-5">
+			<a href={result.id} class="group">
+				<h2 class="text-xl group-hover:underline">{result.title}</h2>
+				<p class="text-md">{result.content.substr(0, 150)}</p>
+			</a>
+		</li>
+	</ul>
 {/each}

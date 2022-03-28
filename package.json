@@ -18,6 +18,7 @@
     "@sveltejs/adapter-auto": "1.0.0-next.33",
     "@sveltejs/kit": "1.0.0-next.303",
     "@tailwindcss/typography": "0.5.2",
+    "@types/mermaid": "8.2.9",
     "@typescript-eslint/eslint-plugin": "5.16.0",
     "@typescript-eslint/parser": "5.16.0",
     "autoprefixer": "10.4.4",
@@ -39,6 +40,7 @@
   "dependencies": {
     "@types/flexsearch": "0.7.3",
     "flexsearch": "0.7.21",
+    "mermaid": "8.14.0",
     "minisearch": "4.0.3",
     "remark": "14.0.2",
     "strip-markdown": "5.0.0"

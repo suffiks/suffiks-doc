@@ -16,6 +16,10 @@ const config = {
 	kit: {
 		adapter: adapter(),
 	},
+
+	vite: {
+		optimizeDeps: { include: ["mermaid"] },
+	},
 };
 
 export default config;

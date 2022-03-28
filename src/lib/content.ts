@@ -27,6 +27,18 @@ Alternate version: run the following command, and change the \`.metadata.labels.
 \`\`\`text
 kubectl edit app MYAPPLICATION
 \`\`\`
+
+
+\`\`\`mermaid
+graph TD
+    A[Christmas] -->|Get money| B(Go shopping)
+    B --> C{Let me think}
+    C -->|One| D[Laptop]
+    C -->|Two| E[iPhone]
+    C -->|Three| F[fa:fa-car Car]
+
+\`\`\`
+
 `;
 
 export interface Document {

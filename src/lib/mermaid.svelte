@@ -1,5 +1,5 @@
 <script lang="ts">
-	import mermaid from "mermaid";
+	import mermaid from "mermaid/dist/mermaid.esm.min.mjs";
 	import { onMount } from "svelte";
 
 	export let source: string;
@@ -7,6 +7,7 @@
 
 	onMount(() => {
 		mermaid.initialize({
+			startOnLoad: false,
 			theme: "neutral",
 		});
 		mermaid.render("graph-div", source, (svgCode) => {

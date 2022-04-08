@@ -6,7 +6,7 @@
 	export let text: string;
 </script>
 
-{#if browser && lang == "mermaid"}
+{#if lang == "mermaid"}
 	<Mermaid source={text} />
 {:else}
 	<pre class={lang}><code>{text}</code></pre>

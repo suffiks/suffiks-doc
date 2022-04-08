@@ -1,97 +1,50 @@
-const testContent = `# Changing teams
-
-This section applies when you get the following error when deploying:
-
-> "tobac.nais.io" denied the request: user 'system:serviceaccount:default:serviceuser-MYTEAM' has no access to team 'OTHERTEAM'
-
-To change which team owns an application you must use \`kubectl\` and change the team label for the application. Deploying with the new team will not work if there exists an Application with the old team label set.
-
-The easiest way to do this is with this one-liner. The user running the command must be a member of both the old and new team.
-
-!!! warning
-Windows users: this one-liner will not work. **Try** the alternate method below.
-!!!
-!!! info
-Windows users: this one-liner will not work. **Try** the alternate method below.
-!!!
-!!! error "With custom title"
-Windows users: this one-liner will not work. **Try** the alternate method below.
-!!!
-
-\`\`\`text
-kubectl patch app MYAPPLICATION --type merge --patch '{"metadata":{"labels":{"team":"MYTEAM"}}}'
-\`\`\`
-
-Alternate version: run the following command, and change the \`.metadata.labels.team\` field to the new team.
-
-\`\`\`text
-kubectl edit app MYAPPLICATION
-\`\`\`
-
-
-\`\`\`mermaid
-graph TD
-    A[Christmas] -->|Get money| B(Go shopping)
-    B --> C{Let me think}
-    C -->|One| D[Laptop]
-    C -->|Two| E[iPhone]
-    C -->|Three| F[fa:fa-car Car]
-
-\`\`\`
-
-`;
-
-export interface Document {
-	slug: string;
+export interface Page {
+	permalink: string;
 	title: string;
-	content: string;
+	slug: string;
+	body: string;
 }
 
 export interface Group {
 	name: string;
 	slug: string;
-	documents: Array<Document>;
+	pages: Page[];
 }
 
-export interface Page {
+export interface Category {
+	name: string;
 	slug: string;
-	title: string;
-	index: string;
-	groups: Array<Group>;
+	groups: Group[];
 }
 
-export interface Content {
-	index: string;
-	pages: Array<Page>;
+export type Categories = Category[];
+
+const cacheDuration = 1000 * 60 * 5; // 5 minutes;
+class DocCache {
+	url: string;
+
+	cacheTime: number = 0;
+	cache: Categories;
+
+	constructor(url: string) {
+		this.url = url;
+	}
+
+	public async get(force?: boolean) {
+		if (this.cacheTime + cacheDuration > Date.now() && this.cache && !force) {
+			return this.cache;
+		}
+
+		const response = await fetch(this.url);
+		const json = await response.json();
+		this.cache = json;
+		this.cacheTime = Date.now();
+		return json;
+	}
 }
 
-const content: Content = {
-	index: "suffiks",
-	pages: [
-		{
-			slug: "suffiks",
-			title: "Suffiks",
-			index: "start",
-			groups: [
-				{
-					name: "Getting started",
-					slug: "start",
-					documents: [
-						{
-							slug: "install",
-							title: "Install",
-							content: testContent,
-						},
-						{
-							slug: "application",
-							title: "Application",
-							content: testContent,
-						},
-					],
-				},
-			],
-		},
-	],
-};
+const cache = new DocCache(`${import.meta.env.VITE_API_URL}/content.json`);
 
-export default content;
+export async function get(force?: boolean): Promise<Categories> {
+	return await cache.get(force || true);
+}

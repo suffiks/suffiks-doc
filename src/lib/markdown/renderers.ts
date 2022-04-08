@@ -6,7 +6,7 @@ import Code from "$lib/markdown/code.svelte";
 export const base = {
 	paragraph: Paragraph,
 	heading: Heading,
-	code: Code,
+	code: Code, // TODO(thokra): Add support for mermaid code blocks
 };
 
 export const renderers = {

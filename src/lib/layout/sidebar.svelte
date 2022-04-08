@@ -1,12 +1,26 @@
 <script lang="ts">
-	import content from "$lib/content";
 	import Link from "$lib/link.svelte";
 
-	const page = content.pages[0];
-
-	function path(grp, doc) {
-		return `/${page.slug}/${grp.slug}/${doc.slug}`;
+	interface Page {
+		title: string;
+		permalink: string;
 	}
+
+	interface Group {
+		name: string;
+		pages: Page[];
+	}
+
+	interface Page {
+		name: string;
+		slug: string;
+		groups: Group[];
+	}
+
+	type Menu = Page[];
+
+	export let menu: Menu;
+	const page = menu[0];
 </script>
 
 <ul>
@@ -14,13 +28,13 @@
 		<li class="">
 			<h5 class="font-semibold text-slate-900 dark:text-slate-200">{grp.name}</h5>
 			<ul>
-				{#each grp.documents as doc}
+				{#each grp.pages as page}
 					<li>
 						<Link
 							class=" text-slate-700 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300 linkactive:text-red-400"
-							href={path(grp, doc)}
+							href={page.permalink}
 						>
-							{doc.title}
+							{page.title}
 						</Link>
 					</li>
 				{/each}

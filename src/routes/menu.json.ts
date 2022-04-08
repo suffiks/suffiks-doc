@@ -11,7 +11,7 @@ async function stripContent(content: string) {
 
 /** @type {import('./menu.json').RequestHandler} */
 export const get: RequestHandler = async ({}) => {
-	const ret = [];
+	const menus = [];
 	const content = await getCache();
 
 	for (const page of content) {
@@ -34,7 +34,7 @@ export const get: RequestHandler = async ({}) => {
 			}
 			c.groups.push(g);
 		}
-		ret.push(c);
+		menus.push(c);
 	}
 
 	return {
@@ -42,6 +42,6 @@ export const get: RequestHandler = async ({}) => {
 		headers: {
 			"content-type": "application/json",
 		},
-		body: ret,
+		body: menus,
 	};
 };

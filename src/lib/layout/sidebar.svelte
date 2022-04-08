@@ -11,20 +11,17 @@
 		pages: Page[];
 	}
 
-	interface Page {
+	interface Menu {
 		name: string;
 		slug: string;
 		groups: Group[];
 	}
 
-	type Menu = Page[];
-
 	export let menu: Menu;
-	const page = menu[0];
 </script>
 
 <ul>
-	{#each page.groups as grp}
+	{#each menu.groups as grp}
 		<li class="">
 			<h5 class="font-semibold text-slate-900 dark:text-slate-200">{grp.name}</h5>
 			<ul>

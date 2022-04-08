@@ -2,9 +2,17 @@
 	import type { Load } from "@sveltejs/kit";
 	export const load: Load = async ({ params, fetch }) => {
 		const req = await fetch("/" + params.catchall + ".json");
+
+		const doc = await req.json();
+		if (doc.redirect) {
+			return {
+				status: 302,
+				redirect: doc.location,
+			};
+		}
 		return {
 			props: {
-				doc: await req.json(),
+				doc,
 			},
 		};
 	};
@@ -12,7 +20,6 @@
 
 <script lang="ts">
 	import Markdown from "$lib/markdown.svelte";
-	import SvelteMarkdown from "svelte-markdown";
 
 	export let doc;
 </script>

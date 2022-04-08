@@ -43,16 +43,27 @@ const notFound = {
 
 /** @type {import('./index.json').RequestHandler} */
 export const get: RequestHandler = async ({ params }) => {
-	const parts = params.page.split("/");
-
 	const content = await getCache();
+	if (params.page == "") {
+		const c = content[0];
+		const g = c.groups[0];
+		const p = g.pages[0];
+
+		return {
+			status: 200,
+			body: {
+				redirect: true,
+				location: `/${c.slug}/${g.slug}/${p.slug}`,
+			},
+		};
+	}
+	const parts = params.page.split("/");
 
 	if (parts.length > 3 || parts.length == 0) {
 		return notFound;
 	}
 
 	let page: Page;
-
 	switch (parts.length) {
 		case 1:
 			page = content[0].groups[0].pages.find((p) => p.slug == parts[0]);

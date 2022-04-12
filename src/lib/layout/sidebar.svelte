@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Link from "$lib/link.svelte";
+	import OfflineControls from "$lib/offline_controls.svelte";
 
 	interface Page {
 		title: string;
@@ -39,3 +40,5 @@
 		</li>
 	{/each}
 </ul>
+
+<OfflineControls />

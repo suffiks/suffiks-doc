@@ -1,8 +1,8 @@
 <script lang="ts">
-	import SvelteMarkdown from "svelte-markdown";
-	import { renderers } from "$lib/markdown/renderers";
+	import type { Token } from "$lib/markdown/converter";
 
 	import { marked } from "marked";
+	import MarkdownRenderer from "./markdown/markdown_renderer.svelte";
 
 	const admonitionTokenizerExtension = {
 		name: "admonition",
@@ -29,7 +29,20 @@
 	// marked.setOptions(…)
 	const options = marked.defaults;
 
-	export let source: string;
+	export let source: Token[];
 </script>
 
-<SvelteMarkdown {source} {options} {renderers} />
+<MarkdownRenderer tokens={source} />
+
+<!--
+{#each source as token}
+	{#if token.type == "paragraph"}
+		<Paragraph text={token.text} />
+	{:else if token.type == "heading"}
+		<Heading depth={token.depth} slug={token.slug}>
+			{token.text}
+		</Heading>
+	{:else if token.type != "space"}
+		<h1 style="color:red; font-size:72px;">Missing {token.type}</h1>
+	{/if}
+{/each} -->

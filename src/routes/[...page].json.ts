@@ -1,41 +1,8 @@
 // This endpoint takes the all available content, strips the markdown and returns it as a json object with a permalink.
 
-import {
-	get as getCache,
-	type Categories,
-	type Category,
-	type Group,
-	type Page,
-} from "$lib/content";
+import { get as getCache, type Page } from "$lib/content";
+import { convert } from "$lib/markdown/converter";
 import type { RequestHandler } from "@sveltejs/kit";
-import { remark } from "remark";
-import strip from "strip-markdown";
-
-async function stripContent(content: string) {
-	return (await remark().use(strip).process(content)).value;
-}
-
-// function onePath(content : Categories, document: string) {
-// 	const page = content[0];
-
-// 	return twoPaths(page.index, document);
-// }
-
-// function twoPaths(groupSlug: string, documentSlug: string) {
-// 	return threePaths(content.index, groupSlug, documentSlug);
-// }
-
-// function threePaths(pageSlug: string, groupSlug: string, documentSlug: string) {
-// 	const page = content.pages.find((p) => p.slug == pageSlug);
-// 	const group = page.groups.find((g) => g.slug == groupSlug);
-// 	const doc = group.documents.find((d) => d.slug == documentSlug);
-
-// 	return {
-// 		props: {
-// 			doc,
-// 		},
-// 	};
-// }
 
 const notFound = {
 	status: 404,

@@ -1,7 +1,4 @@
 <script lang="ts">
-	import SvelteMarkdown from "svelte-markdown";
-	import { base as renderers } from "$lib/markdown/renderers";
-
 	export let title: string;
 	export let kind: string;
 	export let text: string;
@@ -12,7 +9,7 @@
 
 <div class={kind}>
 	<h3>{header}</h3>
-	<SvelteMarkdown source={text} {renderers} />
+	{text}
 </div>
 
 <style lang="postcss">

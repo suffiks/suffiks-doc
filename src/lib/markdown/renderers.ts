@@ -1,4 +1,4 @@
-import AdmonitionMarkdown from "$lib/markdown/admonition.svelte";
+import AdmonitionMarkdown from "$lib/markdown/renderers/admonition.svelte";
 import Paragraph from "$lib/markdown/paragraph.svelte";
 import Heading from "$lib/markdown/heading.svelte";
 import Code from "$lib/markdown/code.svelte";

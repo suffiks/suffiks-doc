@@ -14,41 +14,46 @@ const admonitionTokenizerExtension = {
 	tokenizer(this: marked.TokenizerThis, src: string, tokens: marked.Token[]) {
 		let rule = /(?:^)!!! ?([\w\-]+(?: +[\w\-]+)*)(?: +"(.*?)")? *(?:\n)(.*?)\n!!!/;
 		const match = rule.exec(src);
+
 		if (match) {
-			return {
+			const token = {
 				type: "admonition",
 				raw: match[0],
 				kind: match[1],
 				title: match[2],
 				text: match[3],
+				tokens: [],
 			} as MarkedAdmonitionToken;
+
+			this.lexer.inline(token.text, token.tokens);
+			return token;
 		}
 	},
 };
 
-marked.use({ extensions: [admonitionTokenizerExtension] });
-// marked.setOptions(…)
-const options = marked.defaults;
-
-options.baseUrl = null;
-options.breaks = false;
-options.gfm = true;
-options.headerIds = true;
-options.headerPrefix = "";
-options.highlight = null;
-options.langPrefix = "language-";
-options.mangle = true;
-options.pedantic = false;
-options.renderer = null;
-options.sanitize = false;
-options.sanitizer = null;
-options.silent = false;
-options.smartLists = false;
-options.smartypants = true;
-options.tokenizer = null;
-options.xhtml = false;
-
 export function convert(src: string): Token[] {
+	marked.use({ extensions: [admonitionTokenizerExtension] });
+	// marked.setOptions(…)
+	const options = marked.defaults;
+
+	options.baseUrl = null;
+	options.breaks = false;
+	options.gfm = true;
+	options.headerIds = true;
+	options.headerPrefix = "";
+	options.highlight = null;
+	options.langPrefix = "language-";
+	options.mangle = true;
+	options.pedantic = false;
+	options.renderer = null;
+	options.sanitize = false;
+	options.sanitizer = null;
+	options.silent = false;
+	options.smartLists = false;
+	options.smartypants = true;
+	options.tokenizer = null;
+	options.xhtml = false;
+
 	const lexer = new Lexer(options);
 	const tokens = lexer.lex(src);
 	const slugger = new Slugger();
@@ -74,13 +79,10 @@ function cleanInlineTokens(slugger: marked.Slugger, tokens: marked.Token[], def 
 	};
 }
 
-function converToken(slugger: marked.Slugger, log = false): (token: marked.Token) => Token {
+function converToken(slugger: marked.Slugger): (token: marked.Token) => Token {
 	return (markedToken: marked.Token) => {
 		const token = markedToken as marked.Token | MarkedAdmonitionToken;
 
-		if (log) {
-			console.log(token.type);
-		}
 		switch (token.type) {
 			case "heading":
 				return {
@@ -139,7 +141,7 @@ function converToken(slugger: marked.Slugger, log = false): (token: marked.Token
 							task: i.task,
 							checked: i.checked,
 							loose: i.loose,
-							tokens: i.tokens.map(converToken(slugger, true)),
+							tokens: i.tokens.map(converToken(slugger)),
 						} as ListItem;
 					}),
 				} as List;
@@ -218,11 +220,12 @@ function converToken(slugger: marked.Slugger, log = false): (token: marked.Token
 					text: token.text,
 				} as Del;
 			case "admonition":
+				console.log("FOUND", token);
 				return {
 					type: "admonition",
 					title: token.title,
-					text: token.text,
 					kind: token.kind,
+					...cleanInlineTokens(slugger, token.tokens, token.text),
 				} as Admonition;
 			default:
 				const t = token as any;
@@ -401,4 +404,5 @@ interface MarkedAdmonitionToken {
 	kind: string;
 	title: string;
 	text: string;
+	tokens: marked.Token[];
 }

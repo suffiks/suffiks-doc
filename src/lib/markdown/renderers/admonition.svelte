@@ -1,7 +1,6 @@
 <script lang="ts">
 	export let title: string;
 	export let kind: string;
-	export let text: string;
 
 	let header = title;
 	$: header = header || kind.replace(/^\w/, (c) => c.toUpperCase());
@@ -9,7 +8,7 @@
 
 <div class={kind}>
 	<h3>{header}</h3>
-	{text}
+	<slot />
 </div>
 
 <style lang="postcss">

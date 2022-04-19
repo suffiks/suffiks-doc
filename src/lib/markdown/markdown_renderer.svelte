@@ -13,6 +13,7 @@
 	import ListItem from "svelte-markdown/src/renderers/ListItem.svelte";
 	import Code from "svelte-markdown/src/renderers/Code.svelte";
 	import Link from "svelte-markdown/src/renderers/Link.svelte";
+	import Strong from "svelte-markdown/src/renderers/Strong.svelte";
 
 	const renderers = {
 		paragraph: Paragraph,
@@ -29,6 +30,7 @@
 		text: Text,
 		link: Link,
 		admonition: Admonition,
+		strong: Strong,
 	};
 </script>
 

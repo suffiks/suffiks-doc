@@ -1,6 +1,8 @@
 <script>
 	export let text;
-	text;
 </script>
 
+{#if text}
+	{text}
+{/if}
 <slot />

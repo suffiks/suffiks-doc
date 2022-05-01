@@ -38,7 +38,7 @@
 </script>
 
 <Topbar {pages} />
-<div class="md:container flex items-stretch w-full pb-6">
+<div class="md:container flex items-stretch w-full pb-6 pt-4">
 	<div class="min-w-[180px] mr-8">
 		<Sidebar {menu} />
 	</div>
@@ -46,3 +46,9 @@
 		<slot />
 	</div>
 </div>
+
+<style>
+	:global(*) {
+		tab-size: 2;
+	}
+</style>

@@ -54,6 +54,8 @@ export const get: RequestHandler = async ({ params }) => {
 		return notFound;
 	}
 
+	console.log(Object.keys(page.document));
+
 	return {
 		status: 200,
 		headers: {
@@ -61,7 +63,7 @@ export const get: RequestHandler = async ({ params }) => {
 		},
 		body: {
 			title: page.title,
-			body: page.body,
+			body: page.document.tokens as any,
 		},
 	};
 };

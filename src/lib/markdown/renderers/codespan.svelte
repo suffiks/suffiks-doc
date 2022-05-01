@@ -1,5 +1,6 @@
-<script>
-	export let text;
+<script lang="ts">
+	export let text: string;
+	text;
 </script>
 
-<code>{text.replace(/`/g, "")}</code>
+<code><slot /></code>

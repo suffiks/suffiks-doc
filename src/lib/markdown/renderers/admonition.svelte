@@ -1,12 +1,12 @@
 <script lang="ts">
 	export let title: string;
-	export let kind: string;
+	export let level: string;
 
 	let header = title;
-	$: header = header || kind.replace(/^\w/, (c) => c.toUpperCase());
+	$: header = header || level.replace(/^\w/, (c) => c.toUpperCase());
 </script>
 
-<div class={kind}>
+<div class={level}>
 	<h3>{header}</h3>
 	<slot />
 </div>

@@ -1,10 +1,13 @@
-import { convert, type Token } from "$lib/markdown/converter";
+export interface Token {
+	type: string;
+	tokens: Token[];
+}
 
 export interface Page {
 	permalink: string;
 	title: string;
 	slug: string;
-	body: Token[];
+	document: Token;
 }
 
 export interface Group {
@@ -39,13 +42,13 @@ class DocCache {
 
 		const response = await fetch(this.url);
 		const json = await response.json();
-		json.forEach((c) => {
-			c.groups.forEach((g) => {
-				g.pages.forEach((p) => {
-					p.body = convert(p.body);
-				});
-			});
-		});
+		// json.forEach((c) => {
+		// 	c.groups.forEach((g) => {
+		// 		g.pages.forEach((p) => {
+		// 			p.body = convert(p.body);
+		// 		});
+		// 	});
+		// });
 		this.cache = json;
 		this.cacheTime = Date.now();
 		return json;

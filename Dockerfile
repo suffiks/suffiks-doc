@@ -12,12 +12,13 @@ RUN npm run build
 
 FROM node:lts-alpine
 
+EXPOSE 3000
 WORKDIR /app
-COPY --from=builder /app/build/. .
 
+COPY --from=builder /app/build/. .
 COPY package.json package-lock.json ./
 
 RUN npm install --only=prod --no-optional --ignore-scripts
 
-EXPOSE 3000
+USER 65532:65532
 CMD ["node", "./index.js"]

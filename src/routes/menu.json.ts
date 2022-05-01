@@ -4,18 +4,22 @@ import { get as getCache } from "$lib/content";
 import type { RequestHandler } from "@sveltejs/kit";
 
 /** @type {import('./menu.json').RequestHandler} */
-export const get: RequestHandler = async ({}) => {
+export const get: RequestHandler = async () => {
 	const menus = [];
 	const content = await getCache();
 
+	if ("error" in content) {
+		return { status: 500, error: content.error };
+	}
+
 	for (const page of content) {
-		let c = {
+		const c = {
 			name: page.name,
 			slug: page.slug,
 			groups: [],
 		};
 		for (const group of page.groups) {
-			let g = {
+			const g = {
 				name: group.name,
 				slug: group.slug,
 				pages: [],

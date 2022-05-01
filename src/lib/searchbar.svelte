@@ -10,7 +10,7 @@
 	let showResults = false;
 	let forceActive = true;
 	let results = [];
-	let value: string = "";
+	let value = "";
 	let selected = 0;
 
 	function controlSelection(e: KeyboardEvent) {

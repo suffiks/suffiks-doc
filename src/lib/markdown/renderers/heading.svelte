@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let level: number;
-	export let slug: string = "";
+	export let slug = "";
 </script>
 
 {#if level === 1}

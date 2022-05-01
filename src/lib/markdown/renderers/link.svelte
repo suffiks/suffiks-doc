@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let destination: string = "";
+	export let destination = "";
 	export let title: string | undefined = undefined;
 </script>
 

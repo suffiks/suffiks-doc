@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let offset: number = 0;
+	export let offset = 0;
 </script>
 
 <li start={offset}><slot /></li>

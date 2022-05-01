@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let tight: boolean = false;
+	export let tight = false;
 </script>
 
 {#if tight}

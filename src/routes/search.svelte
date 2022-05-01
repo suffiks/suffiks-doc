@@ -29,7 +29,6 @@
 <script lang="ts">
 	export let q: string;
 	export let res = [];
-	$: console.log(res);
 </script>
 
 <h1 class="text-xl">

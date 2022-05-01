@@ -1,7 +1,6 @@
 // This endpoint takes the all available content, strips the markdown and returns it as a json object with a permalink.
 
 import { get as getCache, type Page } from "$lib/content";
-import { convert } from "$lib/markdown/converter";
 import type { RequestHandler } from "@sveltejs/kit";
 
 const notFound = {
@@ -11,6 +10,11 @@ const notFound = {
 /** @type {import('./index.json').RequestHandler} */
 export const get: RequestHandler = async ({ params }) => {
 	const content = await getCache();
+
+	if ("error" in content) {
+		return { status: 500, error: content.error };
+	}
+
 	if (params.page == "") {
 		const c = content[0];
 		const g = c.groups[0];
@@ -53,8 +57,6 @@ export const get: RequestHandler = async ({ params }) => {
 	if (!page) {
 		return notFound;
 	}
-
-	console.log(Object.keys(page.document));
 
 	return {
 		status: 200,

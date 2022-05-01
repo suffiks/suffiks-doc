@@ -28,7 +28,7 @@
 	// supressWarnings();
 
 	export let tokens: Token[] = [];
-	export let kind: string = "";
+	export let kind = "";
 	if (kind && !renderers[kind]) {
 		console.warn(`Unknown kind: ${kind}`);
 	}

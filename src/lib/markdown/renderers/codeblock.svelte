@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let language: string = "";
+	export let language = "";
 	export let text: string;
 </script>
 

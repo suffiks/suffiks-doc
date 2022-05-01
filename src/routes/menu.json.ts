@@ -2,12 +2,6 @@
 
 import { get as getCache } from "$lib/content";
 import type { RequestHandler } from "@sveltejs/kit";
-import { remark } from "remark";
-import strip from "strip-markdown";
-
-async function stripContent(content: string) {
-	return (await remark().use(strip).process(content)).value;
-}
 
 /** @type {import('./menu.json').RequestHandler} */
 export const get: RequestHandler = async ({}) => {
